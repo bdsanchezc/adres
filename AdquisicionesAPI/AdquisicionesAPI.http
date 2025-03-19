@@ -1,0 +1,6 @@
+@AdquisicionesAPI_HostAddress = http://localhost:5230
+
+GET {{AdquisicionesAPI_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

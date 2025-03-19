@@ -1,0 +1,8 @@
+# Node.js (para Angular)
+adquisiciones-app/node_modules
+adquisiciones-app/dist
+
+# .NET (para API)
+AdquisicionesAPI/bin
+AdquisicionesAPI/obj
+AdquisicionesAPI/*.db
