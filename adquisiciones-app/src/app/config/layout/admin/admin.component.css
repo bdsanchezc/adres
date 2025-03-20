@@ -1,0 +1,8 @@
+:host {
+  display: block;
+  height: 100%;
+}
+
+.h-custom {
+  height: calc(100% - 128px);
+}

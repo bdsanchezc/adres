@@ -1,0 +1,11 @@
+<app-header [userName]="this.userName" [userEmail]="this.userEmail" />
+<main class="flex h-custom">
+  <app-sidebar />
+  <section class="p-5 w-full">
+    <router-outlet></router-outlet>
+  </section>
+</main>
+<footer class="bg-gray-100 text-center p-3">
+  <p>Adquisiciones App</p>
+  <p>2025</p>
+</footer>

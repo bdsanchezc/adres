@@ -18,21 +18,45 @@ namespace AdquisicionesAPI.Controllers
         }
 
         [HttpGet("Estados")]
-        public async Task<ActionResult<IEnumerable<Estado>>> GetEstados()
+        public async Task<ActionResult<Response<List<Estado>>>> GetEstados()
         {
-            return await _service.GetEstados();
+            try
+            {
+                var estados = await _service.GetEstados();
+                return Ok( new Response<List<Estado>>("success", estados) );
+            }
+            catch (System.Exception ex)
+            {
+                return BadRequest( new Response<string>("error", ex.Message) );
+            }
         }
 
         [HttpGet("Unidades")]
-        public async Task<ActionResult<IEnumerable<Unidad>>> GetUnidades()
+        public async Task<ActionResult<Response<List<Unidad>>>> GetUnidades()
         {
-            return await _service.GetUnidades();
+            try
+            {
+                var unidades = await _service.GetUnidades();
+                return Ok( new Response<List<Unidad>>("success", unidades) );
+            }
+            catch (System.Exception ex)
+            {
+                return BadRequest( new Response<string>("error", ex.Message) );
+            }
         }
 
         [HttpGet("Proveedores")]
-        public async Task<ActionResult<IEnumerable<Proveedor>>> GetProveedores()
+        public async Task<ActionResult<Response<List<Proveedor>>>> GetProveedores()
         {
-            return await _service.GetProveedores();
+            try
+            {
+                var proveedores = await _service.GetProveedores();
+                return Ok( new Response<List<Proveedor>>("success", proveedores) );
+            }
+            catch (System.Exception ex)
+            {
+                return BadRequest( new Response<string>("error", ex.Message) );
+            }
         }
     }
 }

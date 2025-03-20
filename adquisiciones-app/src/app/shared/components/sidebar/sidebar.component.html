@@ -1,0 +1,14 @@
+<div class="h-full w-64 bg-primary-adres text-white flex flex-col">
+
+  <nav class="flex-1 mt-4">
+    <ul>
+      @for(item of menuItems; track item.name) {
+        <li>
+          <a [routerLink]="item.path" class="block p-3 hover:bg-gray-700">
+            {{ item.name }}
+          </a>
+        </li>
+      }
+    </ul>
+  </nav>
+</div>

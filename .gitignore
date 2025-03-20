@@ -6,3 +6,5 @@ adquisiciones-app/dist
 AdquisicionesAPI/bin
 AdquisicionesAPI/obj
 AdquisicionesAPI/*.db
+
+.fake

@@ -1,5 +1,4 @@
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace AdquisicionesAPI.Models
 {
@@ -7,13 +6,27 @@ namespace AdquisicionesAPI.Models
     {
         [Key]
         public int Id { get; set; }
-        [Required]
-        public int AdquisicionId { get; set; }
-        [Required]
-        public string DatosAnteriores { get; set; } = string.Empty;
-        public DateTime FechaCambio { get; set; } = DateTime.UtcNow;
 
-        [ForeignKey("AdquisicionId")]
-        public Adquisicion? Adquisicion { get; set; }
+        [Required]
+        public int AdquisicionId { get; set; } 
+
+        [Required]
+        public string CampoModificado { get; set; } = string.Empty; 
+
+        [Required]
+        public string ValorAnterior { get; set; } = string.Empty;
+
+        [Required]
+        public string ValorNuevo { get; set; } = string.Empty;
+
+        [Required]
+        public DateTime FechaModificacion { get; set; } = DateTime.UtcNow;
+
+        [Required]
+        public string Usuario { get; set; } = string.Empty;
+
+        [Required]
+        public int AccionId { get; set; }
+        public virtual Accion? Accion { get; set; }
     }
 }

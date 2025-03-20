@@ -4,3 +4,44 @@
   themes: light --default;
   root: ":root";
 }
+
+@theme {
+  --color-primary-adres: #273557;
+  --color-secondary: #12D5B0;
+  --color-tertiary: #7CE2E6;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  background-color: #f9f9f9;
+}
+
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 50px;
+}
+
+thead th {
+  padding: .5rem 1rem;
+  text-align: left;
+  background-color:  #273557;
+  border-bottom: 2px solid #dee2e6;
+  color: #ffffff;
+}
+
+tbody tr {
+  border-bottom: 1px solid #dee2e6;
+}
+
+tbody tr:hover {
+  background-color: #f5f5f5;
+}
+
+tbody td {
+  padding: .5rem 1rem;
+  vertical-align: middle;
+  text-align: left;
+}

@@ -23,6 +23,25 @@ namespace AdquisicionesAPI.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            // Config FK for Adquisicion Table
+            modelBuilder.Entity<Adquisicion>()
+                .HasOne(a => a.Unidad)
+                .WithMany()
+                .HasForeignKey(a => a.UnidadId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<Adquisicion>()
+                .HasOne(a => a.Proveedor)
+                .WithMany()
+                .HasForeignKey(a => a.ProveedorId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<Adquisicion>()
+                .HasOne(a => a.Estado)
+                .WithMany()
+                .HasForeignKey(a => a.EstadoId)
+                .OnDelete(DeleteBehavior.Restrict);
+
             // Seed data for Estado table
             modelBuilder.Entity<Estado>().HasData(
                 new Estado { Id = 1, Nombre = "Creado" },
@@ -45,6 +64,14 @@ namespace AdquisicionesAPI.Data
                 new Proveedor { Id = 2, Nombre = "Laboratorios Distritales S.A." },
                 new Proveedor { Id = 3, Nombre = "Laboratirio Medicinal S.A." }
             );
+
+            // Seed data for Proveedor table
+            modelBuilder.Entity<Accion>().HasData(
+                new Proveedor { Id = 1, Nombre = "Creación" },
+                new Proveedor { Id = 2, Nombre = "Edición" }
+            );
+
+
         }
     }
 }

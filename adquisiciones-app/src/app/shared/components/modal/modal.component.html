@@ -1,0 +1,70 @@
+@if (modalOpen()) {
+  <dialog id="historyModal" class="modal modal-open">
+    <div class="modal-box w-11/12 max-w-5xl">
+      <h2 class="font-bold text-lg mb-5 text-primary-adres">Historial de Modificaciones</h2>
+
+      <!-- Sección de Datos Actuales -->
+      <div *ngIf="acquisition()" class="mb-4">
+        <h3 class="text-md font-semibold mb-2">Datos Actuales</h3>
+        <ul class="list-disc pl-5 grid grid-cols-2">
+          <li><strong>Unidad:</strong> {{ acquisition()?.unidad?.nombre }}</li>
+          <li><strong>Proveedor:</strong> {{ acquisition()?.proveedor?.nombre }}</li>
+          <li><strong>Estado:</strong> {{ acquisition()?.estado?.nombre }}</li>
+          <li><strong>Presupuesto:</strong> {{ acquisition()?.presupuesto | currency: 'COP':'symbol':'1.0-0' }}</li>
+          <li><strong>Cantidad:</strong> {{ acquisition()?.cantidad }}</li>
+          <li><strong>Valor Unitario:</strong> {{ acquisition()?.valorUnitario | currency: 'COP':'symbol':'1.0-0' }}</li>
+          <li><strong>Valor Total:</strong> {{ acquisition()?.valorTotal | currency: 'COP':'symbol':'1.0-0' }}</li>
+          <li><strong>Fecha de Adquisición:</strong> {{ acquisition()?.fechaAdquisicion | date: 'dd-MM-yyyy' }}</li>
+        </ul>
+      </div>
+
+      <!-- Sección de Historial -->
+      <div class="overflow-x-auto mt-10">
+        <h3 class="text-md font-semibold">Historial de Modificaciones</h3>
+        <table class="table mt-5! w-full table-zebra">
+          <thead>
+            <tr>
+              <th>Campo Modificado</th>
+              <th>Valor Anterior</th>
+              <th>Valor Nuevo</th>
+              <th>Fecha</th>
+              <th>Usuario</th>
+              <th>Acción</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let record of historyPaginated">
+              <td class="text-left">{{ record.campoModificado }}</td>
+              <td class="text-left">{{ record.valorAnterior }}</td>
+              <td class="text-left">{{ record.valorNuevo }}</td>
+              <td class="text-left">{{ record.fechaModificacion | date: 'dd-MM-yyyy' }}</td>
+              <td class="text-left">{{ record.usuario }}</td>
+              <td class="text-left">{{ record.accion }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="flex justify-center mt-4">
+        <button type="button" (click)="prevPage()" [disabled]="currentPage === 1" class="btn bg-transparent underline text-blue_primary border-0 shadow-none">Anterior</button>
+        @for( page of pages; track page ) {
+          <button
+            type="button"
+            (click)="goToPage(page)"
+            class="btn px-3"
+            [class.bg-blue-500]="page === currentPage"
+            [class.text-white]="page === currentPage"
+          >
+            {{ page }}
+          </button>
+        }
+        <button type="button" (click)="nextPage()" [disabled]="currentPage === totalPages" class="btn bg-transparent underline text-blue_primary border-0 shadow-none">Siguiente</button>
+      </div>
+
+      <!-- Botón de cierre -->
+      <div class="modal-action">
+        <button class="btn btn-error" (click)="closeModal()">Cerrar</button>
+      </div>
+    </div>
+  </dialog>
+}

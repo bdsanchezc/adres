@@ -11,14 +11,41 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AdquisicionesAPI.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250319190125_SeedInitialData")]
-    partial class SeedInitialData
+    [Migration("20250320193822_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "9.0.3");
+
+            modelBuilder.Entity("AdquisicionesAPI.Models.Accion", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Nombre")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Accion");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Nombre = "Creación"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Nombre = "Edición"
+                        });
+                });
 
             modelBuilder.Entity("AdquisicionesAPI.Models.Adquisicion", b =>
                 {
@@ -59,6 +86,12 @@ namespace AdquisicionesAPI.Migrations
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("EstadoId");
+
+                    b.HasIndex("ProveedorId");
+
+                    b.HasIndex("UnidadId");
 
                     b.ToTable("Adquisiciones");
                 });
@@ -106,19 +139,34 @@ namespace AdquisicionesAPI.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
+                    b.Property<int>("AccionId")
+                        .HasColumnType("INTEGER");
+
                     b.Property<int>("AdquisicionId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("DatosAnteriores")
+                    b.Property<string>("CampoModificado")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<DateTime>("FechaCambio")
+                    b.Property<DateTime>("FechaModificacion")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Usuario")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("ValorAnterior")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("ValorNuevo")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AdquisicionId");
+                    b.HasIndex("AccionId");
 
                     b.ToTable("HistorialAdquisiciones");
                 });
@@ -192,15 +240,42 @@ namespace AdquisicionesAPI.Migrations
                         });
                 });
 
+            modelBuilder.Entity("AdquisicionesAPI.Models.Adquisicion", b =>
+                {
+                    b.HasOne("AdquisicionesAPI.Models.Estado", "Estado")
+                        .WithMany()
+                        .HasForeignKey("EstadoId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("AdquisicionesAPI.Models.Proveedor", "Proveedor")
+                        .WithMany()
+                        .HasForeignKey("ProveedorId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("AdquisicionesAPI.Models.Unidad", "Unidad")
+                        .WithMany()
+                        .HasForeignKey("UnidadId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Estado");
+
+                    b.Navigation("Proveedor");
+
+                    b.Navigation("Unidad");
+                });
+
             modelBuilder.Entity("AdquisicionesAPI.Models.HistorialAdquisicion", b =>
                 {
-                    b.HasOne("AdquisicionesAPI.Models.Adquisicion", "Adquisicion")
+                    b.HasOne("AdquisicionesAPI.Models.Accion", "Accion")
                         .WithMany()
-                        .HasForeignKey("AdquisicionId")
+                        .HasForeignKey("AccionId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Adquisicion");
+                    b.Navigation("Accion");
                 });
 #pragma warning restore 612, 618
         }

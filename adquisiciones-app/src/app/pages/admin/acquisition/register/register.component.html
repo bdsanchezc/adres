@@ -1,0 +1,139 @@
+
+<main class="w-full h-full">
+  <h1 class="text-2xl font-bold mb-5">Registro de Adquisiciones</h1>
+
+  <form [formGroup]="form" (submit)="onSubmit()">
+    <fieldset class="grid grid-cols-1 gap-4 md:grid-cols-3 lg:grid-cols-4 mb-4">
+      <div>
+        <label class="block text-sm">Presupuesto</label>
+        <input
+          formControlName="budget"
+          appCurrencyFormat
+          type="text"
+          class="border border-[#969696] rounded-md p-3 w-full mt-1 bg-white text-gray-700 text-sm h-12"
+          placeholder="Ingrese el presupuesto disponible">
+          @if (form.get('budget')?.invalid && form.get('budget')?.touched) {
+          <span class="text-sm text-red-500">Este campo no es valido</span>
+          }
+      </div>
+      <div>
+        <label class="block text-sm">Unidad</label>
+        <select
+          title="unit"
+          formControlName="unit"
+          class="custom-select border border-[#969696] rounded-md p-3 w-full mt-1 bg-white text-gray-700 text-sm h-12">
+          <option [value]="null" [disabled]="true">Seleccione</option>
+          @for ( unit of units; track unit.id ) {
+            <option [value]="unit.id">{{ unit.nombre }}</option>
+          }
+        </select>
+          @if (form.get('unit')?.invalid && form.get('unit')?.touched) {
+            <span class="text-sm text-red-500">Este campo no es valido</span>
+          }
+      </div>
+      <div>
+        <label class="block text-sm">Tipo de Bien o Servicio</label>
+        <input
+          formControlName="service"
+          type="text"
+          class="border border-[#969696] rounded-md p-3 w-full mt-1 bg-white text-gray-700 text-sm h-12"
+          placeholder="Ingrese la descripción del servicio">
+          @if (form.get('service')?.invalid && form.get('service')?.touched) {
+          <span class="text-sm text-red-500">Este campo no es valido</span>
+          }
+      </div>
+      <div>
+        <label class="block text-sm">Cantidad</label>
+        <input
+          formControlName="quantity"
+          type="number"
+          class="border border-[#969696] rounded-md p-3 w-full mt-1 bg-white text-gray-700 text-sm h-12"
+          placeholder="Ingrese la cantidad">
+          @if (form.get('quantity')?.invalid && form.get('quantity')?.touched) {
+          <span class="text-sm text-red-500">Este campo no es valido</span>
+          }
+      </div>
+      <div>
+        <label class="block text-sm">Valor Unitario</label>
+        <input
+          formControlName="unitValue"
+          appCurrencyFormat
+          type="text"
+          class="border border-[#969696] rounded-md p-3 w-full mt-1 bg-white text-gray-700 text-sm h-12"
+          placeholder="Ingrese el valor por unidad">
+          @if (form.get('unitValue')?.invalid && form.get('unitValue')?.touched) {
+          <span class="text-sm text-red-500">Este campo no es valido</span>
+          }
+      </div>
+      <div>
+        <label class="block text-sm">Valor total</label>
+        <input
+          formControlName="totalValue"
+          appCurrencyFormat
+          type="text"
+          readonly
+          class="border border-[#969696] rounded-md p-3 w-full mt-1 bg-white text-gray-700 text-sm h-12"
+          placeholder="Ingrese el valor total">
+          @if (form.get('totalValue')?.invalid && form.get('totalValue')?.touched) {
+          <span class="text-sm text-red-500">Este campo no es valido</span>
+          }
+      </div>
+      <div>
+        <label class="block text-sm">Fecha de Adquisición</label>
+        <input
+          formControlName="date"
+          type="date"
+          class="border border-[#969696] rounded-md p-3 w-full mt-1 bg-white text-gray-700 text-sm h-12"
+          placeholder="Ingrese el valor total">
+          @if (form.get('date')?.invalid && form.get('date')?.touched) {
+          <span class="text-sm text-red-500">Este campo no es valido</span>
+          }
+      </div>
+      <div>
+        <label class="block text-sm">Proveedor</label>
+        <select
+          title="provider"
+          formControlName="provider"
+          class="custom-select border border-[#969696] rounded-md p-3 w-full mt-1 bg-white text-gray-700 text-sm h-12">
+          <option [value]="null" [disabled]="true">Seleccione</option>
+          @for ( provider of providers; track provider.id ) {
+            <option [value]="provider.id">{{ provider.nombre }}</option>
+          }
+        </select>
+          @if (form.get('provider')?.invalid && form.get('provider')?.touched) {
+            <span class="text-sm text-red-500">Este campo no es valido</span>
+          }
+      </div>
+      @if( type === 'Edit' ) {
+        <div>
+          <label class="block text-sm">Estado</label>
+          <select
+            title="state"
+            formControlName="state"
+            class="custom-select border border-[#969696] rounded-md p-3 w-full mt-1 bg-white text-gray-700 text-sm h-12">
+            <option [value]="null" [disabled]="true">Seleccione</option>
+            @for ( state of states; track state.id ) {
+              <option [value]="state.id">{{ state.nombre }}</option>
+            }
+          </select>
+            @if (form.get('state')?.invalid && form.get('state')?.touched) {
+              <span class="text-sm text-red-500">Este campo no es valido</span>
+            }
+        </div>
+      }
+      <div class="col-start-1 col-end-5">
+        <label class="block text-sm">Documentación</label>
+        <textarea
+          formControlName="docs"
+          class="border border-[#969696] rounded-md p-3 w-full mt-1 bg-white text-gray-700 text-sm h-24 resize-none"
+          placeholder="Ingrese la información de la documentación">
+        </textarea>
+      </div>
+    </fieldset>
+
+    <button
+      type="submit"
+      [disabled]="!form.valid"
+      class="btn bg-primary-adres text-white">Crear registro</button>
+  </form>
+</main>

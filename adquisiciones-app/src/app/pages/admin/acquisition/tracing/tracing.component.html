@@ -1,0 +1,126 @@
+<main class="w-full h-full">
+  <h1 class="text-2xl font-bold mb-5">Consultar Adquisiciones</h1>
+
+  <form [formGroup]="form" (submit)="onSubmit()">
+    <fieldset class="grid grid-cols-1 gap-4 md:grid-cols-3 lg:grid-cols-4 mb-4">
+      <div>
+        <label class="block text-sm">Unidad</label>
+        <select
+          title="unit"
+          formControlName="unit"
+          class="custom-select border border-[#969696] rounded-md p-3 w-full mt-1 bg-white text-gray-700 text-sm h-12">
+          <option [value]="null" [disabled]="true">Seleccione</option>
+          @for ( unit of units; track unit.id ) {
+            <option [value]="unit.id">{{ unit.nombre }}</option>
+          }
+        </select>
+      </div>
+      <div>
+        <label class="block text-sm">Fecha de Adquisición</label>
+        <input
+          formControlName="date"
+          type="date"
+          class="border border-[#969696] rounded-md p-3 w-full mt-1 bg-white text-gray-700 text-sm h-12"
+          placeholder="Ingrese el valor total">
+      </div>
+      <div>
+        <label class="block text-sm">Proveedor</label>
+        <select
+          title="provider"
+          formControlName="provider"
+          class="custom-select border border-[#969696] rounded-md p-3 w-full mt-1 bg-white text-gray-700 text-sm h-12">
+          <option [value]="null" [disabled]="true">Seleccione</option>
+          @for ( provider of providers; track provider.id ) {
+            <option [value]="provider.id">{{ provider.nombre }}</option>
+          }
+        </select>
+      </div>
+      <div>
+        <label class="block text-sm">Estado</label>
+        <select
+          title="state"
+          formControlName="state"
+          class="custom-select border border-[#969696] rounded-md p-3 w-full mt-1 bg-white text-gray-700 text-sm h-12">
+          <option [value]="null" [disabled]="true">Seleccione</option>
+          @for ( state of states; track state.id ) {
+            <option [value]="state.id">{{ state.nombre }}</option>
+          }
+        </select>
+      </div>
+    </fieldset>
+
+    <div class="flex items-center gap-x-3">
+      <button
+        type="submit"
+        class="btn bg-primary-adres text-white">Consultar</button>
+      <button
+        type="button"
+        (click)="onReset()"
+        class="btn btn-soft">Limpiar</button>
+    </div>
+  </form>
+
+  @if ( acquisitionsData.length > 0 ) {
+    <div class="showtable">
+      <div class="overflow-x-auto">
+        <table class="table table-xs table-pin-rows table-pin-cols table-zebra">
+          <thead>
+            @for( column of headers; track column.id ) {
+              <th>{{ column.label }}</th>
+            }
+          </thead>
+          <tbody>
+            @for( row of paginatedData; track row.id ) {
+              <tr>
+                <td>{{ row.unidad.nombre }}</td>
+                <td>{{ row.tipoBienServicio }}</td>
+                <td>{{ row.proveedor.nombre }}</td>
+                <td>{{ row.fechaAdquisicion | date: 'dd-MM-yyyy' }}</td>
+                <td>{{ row.presupuesto | currency: 'COP':'symbol':'1.0-0' }}</td>
+                <td>{{ row.cantidad }}</td>
+                <td>{{ row.valorUnitario | currency: 'COP':'symbol':'1.0-0' }}</td>
+                <td>{{ row.valorTotal | currency: 'COP':'symbol':'1.0-0' }}</td>
+                <td>
+                  <div class="badge bg-tertiary">
+                    {{ row.estado.nombre }}
+                  </div>
+                </td>
+                <td>
+                  <div class="flex items-center gap-x-3">
+                    <a
+                      [routerLink]="['/admin/acquisition/register', row.id]"
+                      class="btn bg-primary-adres text-white">
+                      Editar
+                    </a>
+                    <button
+                      (click)="openModal(row)"
+                      class="btn">
+                      Historial
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Controles de paginación -->
+      <div class="flex justify-center mt-4">
+        <button type="button" (click)="prevPage()" [disabled]="currentPage === 1" class="btn bg-transparent underline text-blue_primary border-0 shadow-none">Anterior</button>
+        @for( page of pages; track page ) {
+          <button
+            type="button"
+            (click)="goToPage(page)"
+            class="btn px-3"
+            [class.bg-blue-500]="page === currentPage"
+            [class.text-white]="page === currentPage"
+          >
+            {{ page }}
+          </button>
+        }
+        <button type="button" (click)="nextPage()" [disabled]="currentPage === totalPages" class="btn bg-transparent underline text-blue_primary border-0 shadow-none">Siguiente</button>
+      </div>
+    </div>
+  }
+</main>
